@@ -318,6 +318,39 @@ func TestResizeBox(t *testing.T) {
 	}
 }
 
+func TestResizeBoxHalfwaySample(t *testing.T) {
+	cases := []struct {
+		name   string
+		width  int
+		height int
+	}{
+		{name: "x1.5", width: 3, height: 3},
+		{name: "x2.5", width: 5, height: 5},
+		{name: "x3.5", width: 7, height: 7},
+	}
+
+	img := &image.RGBA{
+		Stride: 2 * 4,
+		Rect:   image.Rect(0, 0, 2, 2),
+		Pix: []uint8{
+			0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+			0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		},
+	}
+
+	for _, c := range cases {
+		expected := image.NewRGBA(image.Rect(0, 0, c.width, c.height))
+		for i := range expected.Pix {
+			expected.Pix[i] = 0xFF
+		}
+
+		actual := Resize(img, c.width, c.height, Box)
+		if !util.RGBAImageEqual(actual, expected) {
+			t.Errorf("%s: expected: %#v, actual: %#v", "ResizeBox "+c.name, util.RGBAToString(expected), util.RGBAToString(actual))
+		}
+	}
+}
+
 func TestResizeLinear(t *testing.T) {
 	cases := []struct {
 		name     string
