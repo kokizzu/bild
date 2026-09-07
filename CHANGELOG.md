@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Fix transparent pixels when resizing with the Box filter by @youdie006 in https://github.com/anthonynsimon/bild/pull/115
+
 ## 0.17.0
 - Bump minimum supported Go version to 1.25
 - Bump golang.org/x/image from 0.41.0 to 0.44.0 by @nwest1 in https://github.com/anthonynsimon/bild/pull/114
